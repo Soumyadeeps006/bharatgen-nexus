@@ -3,18 +3,18 @@ import { LayoutDashboard, Network, Database, Settings, Activity, Zap } from 'luc
 import './Sidebar.css';
 
 const navItems = [
-  { icon: LayoutDashboard, label: 'Ontology View', active: true },
-  { icon: Network, label: 'Data Pipelines', active: false },
-  { icon: Database, label: 'Integrations', active: false },
-  { icon: Activity, label: 'Analytics Apps', active: false },
-  { icon: Settings, label: 'Settings', active: false },
+  { icon: LayoutDashboard, label: 'Ontology View', key: 'ontology' },
+  { icon: Network, label: 'Data Pipelines', key: 'pipelines' },
+  { icon: Database, label: 'Integrations', key: 'integrations' },
+  { icon: Activity, label: 'Analytics Apps', key: 'apps' },
+  { icon: Settings, label: 'Settings', key: 'settings' },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ activePage, setActivePage }) => {
   return (
     <aside className="sidebar glass-panel">
       <div className="sidebar-header">
-        <div className="logo-container">
+        <div className="logo-container" style={{ cursor: 'pointer' }} onClick={() => setActivePage('ontology')}>
           <Zap className="logo-icon" size={28} />
           <h2>BharatGen</h2>
         </div>
@@ -25,7 +25,14 @@ const Sidebar = () => {
         <ul>
           {navItems.map((item, index) => (
             <li key={index}>
-              <a href="#" className={`nav-link ${item.active ? 'active' : ''}`}>
+              <a 
+                href="#" 
+                className={`nav-link ${activePage === item.key ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActivePage(item.key);
+                }}
+              >
                 <item.icon size={20} className="nav-icon" />
                 <span>{item.label}</span>
               </a>
